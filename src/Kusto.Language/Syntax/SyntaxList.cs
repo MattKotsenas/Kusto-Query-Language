@@ -137,6 +137,6 @@ namespace Kusto.Language.Syntax
             return new SyntaxList<TElement>(newElements);
         }
 
-        public static SyntaxList<TElement> Empty() => new SyntaxList<TElement>(new TElement[0]);
+        public static SyntaxList<TElement> Empty() => new SyntaxList<TElement>(Array.Empty<TElement>());
     }
 }
