@@ -86,7 +86,10 @@ namespace Kusto.Language.Utils
         /// </summary>
         public static Dictionary<TKey, TValue> ToDictionaryLast<TItem, TKey, TValue>(this IEnumerable<TItem> items, Func<TItem, TKey> keySelector, Func<TItem, TValue> valueSelector)
         {
-            var map = new Dictionary<TKey, TValue>();
+            var map = items.TryGetNonEnumeratedCount(out var count)
+                ? new Dictionary<TKey, TValue>(count)
+                : new Dictionary<TKey, TValue>();
+
             foreach (var item in items)
             {
                 var key = keySelector(item);
@@ -428,4 +431,31 @@ namespace Kusto.Language.Utils
             return hc;
         }
     }
+
+#if !NET6_0_OR_GREATER
+    internal static class EnumerableExtensions
+    {
+        /// <summary>
+        ///   Attempts to determine the number of elements in a sequence without forcing an enumeration.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.trygetnonenumeratedcount?view=net-10.0
+        public static bool TryGetNonEnumeratedCount<TSource>(this IEnumerable<TSource> target, out int count)
+        {
+            if (target is ICollection<TSource> genericCollection)
+            {
+                count = genericCollection.Count;
+                return true;
+            }
+
+            if (target is System.Collections.ICollection collection)
+            {
+                count = collection.Count;
+                return true;
+            }
+
+            count = 0;
+            return false;
+        }
+    }
+#endif
 }
