@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+	  <TargetFrameworks>net472;netstandard2.0;net6.0</TargetFrameworks>
     <KustoProps Condition="Exists('..\..\Directory.Build.props')">true</KustoProps>
   </PropertyGroup>
   <PropertyGroup> 
@@ -12,7 +13,6 @@
 	</PropertyGroup>
   <PropertyGroup Condition=" '$(KustoProps)' != 'true'">
     <Configuration Condition=" '$(Configuration)' == ''">Release</Configuration>
-    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' and '$(KustoProps)' != 'true'">
     <DebugSymbols>true</DebugSymbols>
