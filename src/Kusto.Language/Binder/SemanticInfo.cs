@@ -133,12 +133,12 @@ namespace Kusto.Language.Binding
         }
 
         public SemanticInfo(Symbol referencedSymbol, TypeSymbol result, Diagnostic diagnostic)
-            : this(referencedSymbol, result, diagnostic != null ? new List<Diagnostic> { diagnostic }.AsReadOnly() : Diagnostic.NoDiagnostics)
+            : this(referencedSymbol, result, diagnostic != null ? new Diagnostic[] { diagnostic } : Diagnostic.NoDiagnostics)
         {
         }
 
         public SemanticInfo(Signature referencedSignature, TypeSymbol result, Diagnostic diagnostic)
-            : this(referencedSignature, result, diagnostic != null ? new List<Diagnostic> { diagnostic }.AsReadOnly() : Diagnostic.NoDiagnostics)
+            : this(referencedSignature, result, diagnostic != null ? new Diagnostic[] { diagnostic } : Diagnostic.NoDiagnostics)
         {
         }
 
