@@ -1178,7 +1178,7 @@ namespace Kusto.Language
                             reverseClusterMap: null,
                             reverseDatabaseMap: null,
                             reverseTableMap: null,
-                            functionsMap: null,
+                            functionsMap: Language.Functions.All.ToDictionaryLast(f => f.Name),
                             aggregatesMap: null,
                             pluginMap: null,
                             operatorMap: null,
