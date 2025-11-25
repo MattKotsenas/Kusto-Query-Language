@@ -197,7 +197,7 @@ namespace Kusto.Language
             this.ClientSymbols = clientSymbols ?? EmptyReadOnlyList<Symbol>.Instance;
             this.Options = options ?? EmptyReadOnlyList<OptionSymbol>.Instance;
             this.Properties = properties ?? EmptyReadOnlyList<PropertyAndValue>.Instance;
-            this.Cache = cache != null ? cache.WithGlobals(this) : null;
+            this.Cache = cache;
             this.ParseOptions = parseOptions ?? ParseOptions.Default;
             this.reverseClusterMap = reverseClusterMap;
             this.reverseDatabaseMap = reverseDatabaseMap;
