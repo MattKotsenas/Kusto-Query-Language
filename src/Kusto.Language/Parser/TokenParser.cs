@@ -42,10 +42,20 @@ namespace Kusto.Language.Parsing
         /// </summary>
         public static LexicalToken[] ParseTokens(string text, ParseOptions options = null)
         {
-            var tokens = new List<LexicalToken>();
-            ParseTokens(text, tokens, options ?? ParseOptions.Default);
-            return tokens.ToArray();
+            var tokens = s_lexicalTokenObjectPool.AllocateFromPool();
+
+            try
+            {
+                ParseTokens(text, tokens, options ?? ParseOptions.Default);
+                return tokens.ToArray();
+            }
+            finally
+            {
+                s_lexicalTokenObjectPool.ReturnToPool(tokens);
+            }
         }
+
+        private static ObjectPool<List<LexicalToken>> s_lexicalTokenObjectPool = new ObjectPool<List<LexicalToken>>(() => new List<LexicalToken>(), list => list.Clear());
 
         /// <summary>
         /// Parses all the tokens in the text.
