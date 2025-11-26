@@ -90,7 +90,7 @@ namespace Kusto.Language.Editor
         /// </summary>
         public IReadOnlyList<TextEdit> GetChanges()
         {
-            var textChanges = new List<TextEdit>();
+            var textChanges = new List<TextEdit>(_changes.Count);
 
             var delta = 0;
             foreach (var edit in _changes)
@@ -111,7 +111,7 @@ namespace Kusto.Language.Editor
         /// </summary>
         public static IReadOnlyList<TextEdit> ConvertToSequentialChanges(IReadOnlyList<TextEdit> collectiveChanges)
         {
-            var sequentialChanges = new List<TextEdit>();
+            var sequentialChanges = new List<TextEdit>(collectiveChanges.Count);
 
             var delta = 0;
             foreach (var edit in collectiveChanges)
@@ -389,7 +389,7 @@ namespace Kusto.Language.Editor
         /// </summary>
         private static string GetNewText(string text, IEnumerable<TextEdit> edits)
         {
-            var builder = new StringBuilder();
+            var builder = new StringBuilder(capacity: text.Length); // PERF: Assume the new text will be about the same size as the old text to reduce reallocations.
 
             // the end position of the last edit in the newest text. 
             var priorEnd = 0;
